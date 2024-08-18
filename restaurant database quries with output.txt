@@ -1,0 +1,230 @@
+create database restaurant
+use restaurant
+create table customer
+(
+CID       int          primary key,
+Cname     varchar(10)  not null,
+Contact   varchar(10)  null,
+)
+create table Itemlist
+(
+     IID    int            primary key,
+	 IName  varchar(30)    not null,
+	 IType  varchar(30)     null,
+)
+create table Orders
+(
+     Oid   int      not null,
+	 Cid   int      foreign key references customer(CID),
+	 Iid   int     foreign key references Itemlist(IID),
+	Icount int   not null,
+)
+insert into customer values(101,'jayanth',9998887771)
+insert into customer values(102,'yeswanth',9998887772)
+insert into customer values(103,'myra',9998887773)
+insert into customer values(104,'sushmit',9998887774)
+insert into customer values(105,'pradeepthi',9998887775)
+insert into customer values(106,'anvitha',9998887776)
+insert into customer values(107,'jenny',9998887777)
+insert into customer values(108,'isha',9998887778)
+insert into customer values(109,'tej',9998887779)
+insert into customer values(110,'manohar',9998887711)
+insert into customer values(111,'Himanish',9998887712)
+insert into customer values(112,'ishan',9998887713)
+insert into customer values(113,'anuhya',9998887714)
+insert into customer values(114,'raja',9998887715)
+insert into customer values(115,'preethi',9998887710)
+select * from customer
+insert into  Itemlist values(201,'manchurya','veg')
+insert into  Itemlist values(202,'noodles','veg')
+insert into  Itemlist values(203,'gobi','veg')
+insert into  Itemlist values(204,'mushroom biryani','veg')
+insert into  Itemlist values(205,'paneer biryani','veg')
+insert into  Itemlist values(206,'palak panner','veg')
+insert into  Itemlist values(207,'panner butter masala','veg')
+insert into  Itemlist values(208,'chicken biryani','non veg')
+insert into  Itemlist values(209,'chicken soup','non veg')
+insert into  Itemlist values(210,'chicken biryani','non veg')
+insert into  Itemlist values(211,'  chilli chicken','non veg')
+insert into  Itemlist values(212,'fish curry','non veg')
+insert into  Itemlist values(213,'fried chicken','non veg')
+insert into  Itemlist values(214,'prwan biryani','non veg')
+insert into  Itemlist values(215,'butter chicken','non veg')
+select * from Itemlist
+insert into Orders values(301,101,201,1)
+insert into Orders values(302,102,202,1)
+insert into Orders values(303,103,203,1)
+insert into Orders values(304,104,204,1)
+insert into Orders values(305,105,205,1)
+insert into Orders values(306,101,202,2)
+insert into Orders values(307,101,210,3)
+insert into Orders values(308,104,213,2)
+insert into Orders values(309,104,215,3)
+insert into Orders values(310,114,209,1)
+select * from Orders
+4)select Contact from Customer C,Orders O, Itemlist I
+where O.Iid=I.IID and O.Cid=C.CID
+and I.IName='chicken biryani'
+o/p:Contact
+9998887771
+5)select Distinct C.CID from Customer C,Orders O 
+where C.CID=O.Cid
+o/p:CID
+101
+102
+103
+104
+105
+114
+6)select Distinct C.CID from customer C,Itemlist I,Orders O
+where O.Cid=C.CID and O.Iid=I.IID
+ and I.IType='veg'
+o/p:CID
+101
+102
+103
+104
+105
+8)select * from Itemlist where Itype='veg'
+o/p:IID	IName	         IType
+201	manchurya	         veg
+202	noodles  	         veg
+203	gobi	             veg
+204	mushroom biryani	  veg
+205	paneer biryani   	  veg
+206	palak panner	      veg
+207	panner butter masala	veg
+9)select count(IID) from Itemlist
+o/p:(No column name)
+10)select C.CName ,C.CID from customer C, Orders O,Itemlist I
+ where I.IType='veg' and C.CID=O.Cid and I.IID=O.IID
+ intersect 
+ select C.CName ,C.CID from customer C, Orders O,Itemlist I
+ where I.IType='non veg' and C.CID=O.Cid and I.IID=O.IID
+o/p:CName	CID
+jayanth	    101
+sushmit  	104
+11)select avg(Icount) from Orders
+o/p:(No column name)
+      1
+12)alter table Itemlist add Todaysspecial varchar(30) null
+o/p:IID	IName	    IType	         Todaysspecial
+201	manchurya	     veg	                  NULL
+202	noodles 	     veg                     NULL
+203	gobi	         veg	                  NULL
+204	mushroom biryaniveg	                  NULL
+205	paneer biryani	    veg	                  NULL
+206	palak panner	    veg	                  NULL
+13)select I.Iname,COUNT(I.Iname) as totalcount from Itemlist as I,Orders as O
+where I.IID=O.IID group by I.Iname
+o/p:Iname	               totalcount
+butter chicken              	1
+chicken biryani	           1
+chicken soup	              1
+fried chicken              	1
+gobi	                      1
+manchurya	                  1
+mushroom biryani           	1
+noodles                    	2
+paneer biryani	              1
+14)select CName from customer order by CName asc
+o/p:
+CName
+anuhya
+anvitha
+Himanish
+isha
+ishan
+jayanth
+jenny
+manohar
+myra
+pradeepthi
+preethi
+raja
+sushmit
+tej
+yeswanth
+15)select C.CID ,C.Cname from customer C,Itemlist I,Orders as O
+where C.CID=O.Cid and I.IID=O.IID
+and I.Itype='veg'
+select * from Veg customers
+o/p:CID	Cname
+101	jayanth
+102	yeswanth
+103	myra
+104	sushmit
+105	pradeepthi
+101	jayanth
+16)update Customer set Contact=999345123 where CID=103
+select * from customer where CID=103
+o/p:  CID	       Cname	     Contact
+      103      	myra	        999345123
+17)alter table Customer add Ratings integer null
+select * from customer where CID=105
+o/p:CID	     Cname	           Contact	     Ratings
+    105	    pradeepthi    	9998887775        NULL
+__________
+__________
+queries from drive
+19)select Ratings,CName from customer
+o/p:Ratings	CName
+10	jayanth
+10	yeswanth
+10	myra
+10	sushmit
+8	pradeepthi
+8	anvitha
+8	jenny
+8	isha
+4	tej
+4	manohar
+4	Himanish
+4	ishan
+6	anuhya
+6	raja
+6	preethi
+20)select count(C.CID) from Customer C,Itemlist I,Orders O
+where C.CID=O.Cid and I.IID=O.IID
+and I.Itype='non veg'
+o/p:(No column name)
+       4
+21)select * from Customer where Ratings>7
+0/p:CID	Cname	Contact	Ratings
+101	jayanth	9998887771	10
+102	yeswanth	9998887772	10
+103	myra	999345123	10
+104	sushmit	9998887774	10
+105	pradeepthi	9998887775	8
+106	anvitha	9998887776	8
+107	jenny	9998887777	8
+108	isha	9998887778	8
+26)select count(C.CID) from Customer C,Orders O 
+where C.CID=O.Cid 
+o/p:(No column name)
+      10
+27)select CName from Customer where CNAme like 'A__%'
+o/p:CName
+   anvitha
+   anuhya
+28)select Ratings from customer where CName like'%h' 
+o/p:Ratings
+     10
+     10
+      4
+30)select C.CName ,C.CID from customer C, Orders O,Itemlist I
+ where I.IType='veg' and C.CID=O.Cid and I.IID=O.IID
+ union
+ select C.CName ,C.CID from customer C, Orders O,Itemlist I
+ where I.IType='non veg' and C.CID=O.Cid and I.IID=O.IID
+o/p:CName	     CID
+   jayanth 	 101
+   myra	        103
+pradeepthi	    105
+   raja	        114
+ sushmit 	    104
+ yeswanth	    102
+
+
+
+
